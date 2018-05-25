@@ -1,0 +1,22 @@
+version: '3.0'
+services:
+  lua-app:
+    image: openresty/openresty:xenial
+    container_name: lua-app
+    build: docker/
+    volumes:
+      - ./lua:/etc/nginx/lua
+      - ./conf:/usr/local/openresty/nginx/conf/
+      - ./html:/usr/local/openresty/nginx/html
+    depends_on:
+      - redis
+    ports:
+      - "8080:80"
+      - "8000:8000"
+
+  redis:
+    image: redis
+    container_name: lua-redis
+    hostname: redis
+    ports:
+      - "6479:6379"
